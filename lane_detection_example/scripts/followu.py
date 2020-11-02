@@ -122,59 +122,10 @@ if __name__ == '__main__':
         curTime = time.time()
         
         ret, img_wlane = image_parser.get_image()
-        # if not ret: continue
         
-        
-
-        '''if not image_parser.saving_ret: continue
-        image_parser.pub_img(image_parser.saving_img.copy())
-        img_wlane = image_parser.saving_img.copy()
-        imgWarpPoints = img_wlane.copy()'''
-        
-        
-        
-        # img_wlane = image_parser.image_process_otsu(img_wlane)
-        
-        # #region trackbar read
-        # src = image_parser.valTrackbars()
-        # if image_parser.trackbar_change_flag:
-        #     image_parser.trackbar_change_flag = False
-        #     print("Recalculate perspectiveWarp.")
-        #     image_parser.perspectiveWarp_init(src)
-        
-        # if image_parser.speed_change_flag:
-        #     image_parser.speed_change_flag = False
-        #     set_speed = image_parser.valTrackbar_speed()
-        #     print("Change the speed " + str(set_speed))
-        # #endregion
-
-        # birdView = image_parser.perspectiveWarp(img_wlane, image_parser.matrix)
-        # img_binary = image_parser.perspectiveWarp(birdView, image_parser.minv)
-
-        # imgWarpPoints = image_parser.drawPoints(imgWarpPoints, src)
-
-        
-        # if image_parser.obj_feed:
-        #     if image_parser.stimer:
-        #         image_parser.stimer = False
-        #         image_parser.stime = time.time()
-        #     if not image_parser.stimer:
-        #         etime = time.time()
-        #         image_parser.yolo_time = etime - image_parser.stime
-                
-        #     print("timer: {}, time: {}".format(image_parser.stimer, image_parser.yolo_time))
-
-        # try:
-            # imgSliding, ploty, left_fit, right_fit, left_fitx, right_fitx = image_parser.sliding_window(birdView, draw_windows=False)
-
-            # draw_info = image_parser.general_search(birdView, left_fit, right_fit)
-
-            # #curveRad, curveDir = image_parser.measure_lane_curvature(ploty, left_fitx, right_fitx)
-            
-            # deviation, directionDev = image_parser.offCenter(draw_info)
             
             #Servo Steer Level: 0.15(L) - 0.5304(C) - 0.85(R)
-            #driving Level: -3000 ~ 3000 RPM
+           
         if image_parser.obj_feed :       
             set_speed = stop_lidar.front_end()    
             dst_steer_level , xmid = image_parser.turn() 
@@ -191,26 +142,12 @@ if __name__ == '__main__':
                 set_speed = 0
             else :
                 dst_steer_level = stop_lidar.corner(temp_steer)
-            #- float(deviation)
-            # fps_str += " deviation: %5.2f" % deviation  
-        # fps_str += " Steer: %5.2f" % dst_steer_level
+           
         speed = set_speed
-        # fps_str += " Speed: %d" % speed  
+      
         print("speed", speed, "steer", dst_steer_level)
         ctrl_lat.pub_cmd(speed, dst_steer_level)     
-        # except:
-        #     fps_str += " Lane Error"
-        #     image_parser.stimer=True
-        #     pass
-
-        
-        # print(image_parser.obj_count)
-        
-        # cv2.putText(imgWarpPoints, fps_str, (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0))
-
-        #cv2.imshow(image_parser.trackbar_name, imgWarpPoints)
-        #cv2.imshow("binary img", img_binary)
-        #if imgSliding is not None: cv2.imshow("Pipe Line 1", imgSliding)
+       
         
         if cv2.waitKey(1) == 13:
             image_parser.keep_reading = False
@@ -218,5 +155,3 @@ if __name__ == '__main__':
         rate.sleep()
 
     image_parser.keep_reading = False
-    # time.sleep(0.5)
-    # cam_thread.join()
